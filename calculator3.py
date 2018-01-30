@@ -12,7 +12,9 @@ def get_shuilv(yingjiao = 0):
 	for i,n in enumerate(list_yingjiao):
 		if yingjiao > n:
 			continue
-	return shuilv_kouchu[i+1]
+		else:
+			break
+	return shuilv_kouchu[i]
 
 def yanzheng():
 	total = []
