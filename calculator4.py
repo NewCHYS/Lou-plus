@@ -13,12 +13,14 @@ class Config():
 		try:
 			f = open(argc, 'r')
 			for x in f:
-				if x:
+				#print(x)
+				if x and x != '\n':
 					lines = x.split('=')
 					config[lines[0].strip()] = float(lines[1].strip())
 			f.close()
 		except Exception as e:
 			print(e)
+			#print('in Config')
 			f.close()
 			exit()
 		return config
@@ -39,9 +41,11 @@ class UserData():
 				if x != '\n':
 					lines = x.split(',')
 					userdata[lines[0].strip()] = int(lines[1].strip())
+					#print(userdata)
 			f.close()
 		except Exception as e:
 			print(e)
+			#print('in Userdata')
 			f.close()
 			exit()
 		return userdata
@@ -66,6 +70,7 @@ class Args():
 				arglist.append(self.args[index+1])
 			except Exception as e:
 				print(e)
+				#print('in Args')
 		return arglist
 
 
@@ -125,51 +130,57 @@ class Export():
 			#print(strin + " writen OK\n")
 		except Exception as e:
 			print(e)
+			#print('in Export')
 			f.close()
 			exit()
 
 
 def read_userdata(argd):
-	u = UserData(sys.argv[1:])
-	#print(u.get_userdata())
+	u = UserData(argd)
 	n = u.get_userdata()
+	#print('Userdata')
+	#print(n)
 	for i, j in n.items():
-		queue_userdata.put(i+':'+j)
+		queue_userdata.put(str(i) + ':' + str(j))
 	queue_userdata.put('exit')
 
 def calculate(argc):
-	c = Config(argd)	
+	c = Config(argc)	
 	con = c.get_config()
-	print("config: ")
-	print(con)
-	while true:
+	#print("config: ")
+	#print(con)
+	while True:
 		userdata = queue_userdata.get()
-		print(userdata)
+		#print(userdata)
 		if userdata == 'exit':
 			queue_savedata.put('exit')
 			break
 		i, j = userdata.split(':')
-		result = Calaulator(con ,i, j).get_result() +'\n'
+		result = Calaulator(con ,int(i), int(j)).get_result() +'\n'
 		queue_savedata.put(result)
 
 def save_data(argo):
 	e = Export()
-	while true:
+	while True:
 		s_data = queue_savedata.get()
-		print(s_data)
+		#print(s_data)
 		if s_data == 'exit':
 			break
-		print(s_data)
+		#print(s_data)
 		e.savefile(argo, s_data)
 
 
 queue_userdata = Queue()
 queue_savedata = Queue()
 if __name__ == '__main__':
-	argd, argc, argo = Args().get_Args()
+	argc, argd, argo = Args().get_Args()
+	#print(argc, argd, argp, sep = '\n')
 	p1 = Process(target = read_userdata, args = (argd,))
 	p2 = Process(target = calculate, args = (argc,))
 	p3 = Process(target = save_data, args = (argo,))
+	p1.start()
+	p2.start()
+	p3.start()
 	p1.join()
 	p2.join()
 	p3.join()
