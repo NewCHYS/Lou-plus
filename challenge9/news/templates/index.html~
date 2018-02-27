@@ -1,0 +1,5 @@
+{% for i in s %}
+
+<a href="/files/{{ i[0] }}">{{ i[1] }}</a>  tags: {{ i[2] }}</p>
+
+{% endfor %}
