@@ -19,4 +19,4 @@ class Spider(scrapy.Spider):
                     'name':course.xpath('.//div[1]/h3/a/text()').re_first('(\S+)'),
                     'update_time': course.xpath('.//relative-time/@datetime').extract_first()
                     }
-
+            
