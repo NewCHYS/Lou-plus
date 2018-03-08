@@ -8,11 +8,10 @@
 import scrapy
 
 
-class PageItem(scrapy.Item):
-    url = scrapy.Field()
-    text = scrapy.Field()
-
-class FlaskDocItem(scrapy.Item):
+class MovieItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    url = scrapy.Field()
+    name = scrapy.Field()
+    summary = scrapy.Field()
+    score = scrapy.Field()

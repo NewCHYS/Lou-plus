@@ -5,15 +5,18 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import redis
+import json
 
 class FlaskDocPipeline(object):
-    def __init__(self):
-        #self.con = redis.StrictRedis(host='127.0.0.1', db=0)
-        pass
+    def open_spider(self, spider):
+        self.redis = redis.StrictRedis(host='localhost', port=6379, db=0)
+
 
     def process_item(self, item, spider):
         url = item['url']
         text = item['text']
-        print(url)
-        print(text)
+#        print(url)
+#        print(text)
+        items = json.dumps({'url':url, 'text':text})
+        self.redis.lpush('flask_doc:items', items)
         return item
