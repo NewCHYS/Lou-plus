@@ -5,8 +5,6 @@ import json
 
 
 def analysis():
-    userid_list = []
-    times_list = []
     file = 'user_study.json'
 
     try:
@@ -14,14 +12,13 @@ def analysis():
     except:
         return 0, 0
     
-    data2 = data.groupby('user_id').apply(lambda df:np.sum(df['minutes'])).reset_index()
+    data2 = data.groupby('user_id').sum()
 #    print(data2)
-    data2.columns = ['user_id', 'minutes']
-    userid_list = data2['user_id'].tolist()
-#    print(userid_list)
-    times_list = data2['minutes'].tolist()
-#    print(times_list)
-#    print(type(userid_list))
+    userid_list = data2.index
+    print(userid_list)
+    times_list = data2.minutes
+    print(times_list)
+    print(type(userid_list))
     return userid_list, times_list
 
 
