@@ -59,7 +59,7 @@ def co2():
         Dataframe.loc[i, 'Lowest emission country'] = Data_min.loc[i, 'Country name']
         Dataframe.loc[i, 'Lowest emissions'] = Data_min.loc[i, 'sum']
     # print(Dataframe)
-    # print(Dataframe.loc[Dataframe.index[2], Dataframe.columns[4]])
+    print(str(Dataframe.loc[Dataframe.index[1], Dataframe.columns[4]]))
     return Dataframe
 
 
