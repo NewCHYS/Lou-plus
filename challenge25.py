@@ -44,22 +44,22 @@ def co2():
     Data_sum = Data4.groupby(Data4['Income group']).sum()
     # print(Data_sum)
     for i in Data_sum.index:
-        # print(Data_sum.loc[i]['sum'])
-        Dataframe.loc[i]['Sum emissions'] = Data_sum.loc[i]['sum']
+        # print(Data_sum.loc[i, 'sum'])
+        Dataframe.loc[i, 'Sum emissions'] = Data_sum.loc[i, 'sum']
     # print(Dataframe)
     Data_max = Data4.groupby(Data4['Income group']).max()
     # print(Data_max)
     for i in Data_max.index:
-        Dataframe.loc[i]['Highest emission country'] = Data_max.loc[i]['Country name']
-        Dataframe.loc[i]['Highest emissions'] = Data_max.loc[i]['sum']
+        Dataframe.loc[i, 'Highest emission country'] = Data_max.loc[i, 'Country name']
+        Dataframe.loc[i, 'Highest emissions'] = Data_max.loc[i, 'sum']
     # print(Dataframe)
     Data_min = Data4.groupby(Data4['Income group']).min()
     # print(Data_min)
     for i in Data_min.index:
-        Dataframe.loc[i]['Lowest emission country'] = Data_min.loc[i]['Country name']
-        Dataframe.loc[i]['Lowest emissions'] = Data_min.loc[i]['sum']
+        Dataframe.loc[i, 'Lowest emission country'] = Data_min.loc[i, 'Country name']
+        Dataframe.loc[i, 'Lowest emissions'] = Data_min.loc[i, 'sum']
     # print(Dataframe)
-
+    # print(Dataframe.loc[Dataframe.index[2], Dataframe.columns[4]])
     return Dataframe
 
 
