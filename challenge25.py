@@ -34,11 +34,10 @@ def co2():
     
     # 4. 新建Dataframe表，按要求设置行、列名
     index = ['High income: OECD', 'High income: nonOECD', 'Low income', 'Lower middle income', 'Upper middle income']
-    columns = ['Sum emissions', 'Highest emission country', 'Highest emissions', 'Lowest emission country', 'Lowest emissions']
-    # columns = ['Income group', 'Sum emissions', 'Highest emission country', 'Highest emissions', 'Lowest emission country', 'Lowest emissions']
-    Dataframe = DataFrame(index=index, columns=columns)
-    # Dataframe['Income group'] = index
-    # Dataframe.set_index('Income group', inplace=True)
+    columns = ['Income group', 'Sum emissions', 'Highest emission country', 'Highest emissions', 'Lowest emission country', 'Lowest emissions']
+    Dataframe = DataFrame(columns=columns)
+    Dataframe['Income group'] = index
+    Dataframe.set_index('Income group', inplace=True)
     # print(Dataframe)
 
     # 5. Data4表分组计算，将结果写入Dataframe表
