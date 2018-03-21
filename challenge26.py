@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 from pandas import DataFrame
 import matplotlib.pyplot as plt
-import time
 
 
 def co2_gdp_plot():
@@ -75,10 +74,10 @@ def co2_gdp_plot():
     # china = [Data.loc['CHN','CO2'].round(3), Data.loc['CHN','GDP'].round(3)]
     china = [n1, n2]
     # plt.show()
+    # print(type(fig))
     return fig, china
 
 
 if __name__ == '__main__':
     fig, china = co2_gdp_plot()
     print(china)
-    time.sleep(10)
