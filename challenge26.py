@@ -21,10 +21,15 @@ def co2_gdp_plot():
     # print(Data)
     Data_CO2.set_index('Country code', inplace=True)
     Data_GDP.set_index('Country code', inplace=True)
-    Data_CO2 = Data_CO2.replace('..', 0)
-    Data_GDP = Data_GDP.replace('..', 0)
+
+    Data_CO2 = Data_CO2.replace('..', np.nan)
+    Data_GDP = Data_GDP.replace('..', np.nan)
+    # Data_CO2 = Data_CO2.replace('..', 0)
+    # Data_GDP = Data_GDP.replace('..', 0)
     Data_CO2 = Data_CO2.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
     Data_GDP = Data_GDP.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
+    Data_CO2 = Data_CO2.dropna()
+    Data_GDP = Data_GDP.dropna()
     Data_CO2 = Data_CO2.sum(axis=1)
     Data_GDP = Data_GDP.sum(axis=1)
     # print(Data_CO2)
@@ -40,39 +45,40 @@ def co2_gdp_plot():
     n_CO2 = Max_CO2 - Min_CO2
     n_GDP = Max_GDP - Min_GDP
     for i in range(0, len(Data)):
-        Data.iloc[i,0] = (Data.iloc[i,0]-Min_CO2)/n_CO2 if Data.iloc[i,0] != 0 else 0
-        Data.iloc[i,1] = (Data.iloc[i,1]-Min_GDP)/n_GDP if Data.iloc[i,0] != 0 else 0
+        Data.iloc[i,0] = (Data.iloc[i,0]-Min_CO2)/n_CO2 if not np.isnan(Data.iloc[i,0]) else 0
+        Data.iloc[i,1] = (Data.iloc[i,1]-Min_GDP)/n_GDP if not np.isnan(Data.iloc[i,1]) else 0
+    Data = Data.reset_index()
     # print(Data)
 
     # 4 绘图
-    fig = plt.figure()
-    ax = fig.add_subplot(1,1,1)
-    ax.set_title('GDP-CO2')
-    ax.set_xlabel('Countries')
-    ax.set_ylabel('Values')
+    # fig = plt.figure()
+    fig = plt.subplot(111)
+    fig.set_title('GDP-CO2')
+    fig.set_xlabel('Countries')
+    fig.set_ylabel('Values')
     index_x = list(Data.index)
+    index_labels = []
     labels = ['CHN','USA','GBR','FRA','RUS']
-    ax.plot(index_x, list(Data['CO2']))
-    ax.plot(index_x, list(Data['GDP']))
+    for s in labels:
+        index_labels.append(Data[Data['index']==s].index)
+    fig.plot(index_x, list(Data['CO2']))
+    fig.plot(index_x, list(Data['GDP']))
     # ax.set_xticks(index_x)
-    plt.xticks(labels, labels, rotation='vertical')
+    plt.xticks(index_labels, labels, rotation='vertical')
     plt.legend(('CO2-SUM','GDP-SUM'), shadow=False, loc=(0.01,0.85))
 
-    #fig = plt.subplot()
-
     # 5 返回需要的数据
-    n1 = float(('%.3f' % Data.loc['CHN','CO2']))
+    n1 = float(('%.3f' % Data.loc[Data[Data['index']=='CHN'].index,'CO2']))
     # print(n1)
-    n2 = float(('%.3f' % Data.loc['CHN','GDP']))
+    n2 = float(('%.3f' % Data.loc[Data[Data['index']=='CHN'].index,'GDP']))
     # print(n2)
     # china = [Data.loc['CHN','CO2'].round(3), Data.loc['CHN','GDP'].round(3)]
     china = [n1, n2]
-    # print(china)
+    # plt.show()
     return fig, china
 
 
 if __name__ == '__main__':
     fig, china = co2_gdp_plot()
     print(china)
-    fig.show()
     time.sleep(10)
