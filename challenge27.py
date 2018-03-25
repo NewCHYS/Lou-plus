@@ -46,7 +46,8 @@ def climate_plot():
     
     Temp12 = Temp['1990':'2010']
     Temp12 = Temp12.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1).dropna()
-    Temp12 = Temp12.resample('12m', closed='left').sum()
+    Temp12 = Temp12.resample('A').mean()
+    # Temp12 = Temp12.resample('12m', closed='left').mean()
     # print(Temp12)
     # print(t)
     Max = Temp12.max()
