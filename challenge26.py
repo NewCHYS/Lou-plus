@@ -43,11 +43,11 @@ def co2_gdp_plot():
     # print(Max_GDP, Min_GDP)
     n_CO2 = Max_CO2 - Min_CO2
     n_GDP = Max_GDP - Min_GDP
-    for i in range(0, len(Data)):
-        Data.iloc[i,0] = (Data.iloc[i,0]-Min_CO2)/n_CO2 if not np.isnan(Data.iloc[i,0]) else 0
-        Data.iloc[i,1] = (Data.iloc[i,1]-Min_GDP)/n_GDP if not np.isnan(Data.iloc[i,1]) else 0
+    Data['CO2'] = (Data['CO2']-Min_CO2)/n_CO2
+    Data['GDP'] = (Data['GDP']-Min_GDP)/n_GDP
+    Data = Data.replace(np.nan, 0)
     Data = Data.reset_index()
-    # print(Data)
+    print(Data)
 
     # 4 绘图
     # fig = plt.figure()
@@ -62,16 +62,14 @@ def co2_gdp_plot():
         index_labels.append(Data[Data['index']==s].index)
     fig.plot(index_x, list(Data['CO2']))
     fig.plot(index_x, list(Data['GDP']))
-    # ax.set_xticks(index_x)
     plt.xticks(index_labels, labels, rotation='vertical')
-    plt.legend(('CO2-SUM','GDP-SUM'), shadow=False, loc=(0.01,0.85))
+    plt.legend(('CO2-SUM','GDP-SUM'), shadow=False, loc='best')
 
     # 5 返回需要的数据
-    n1 = float(('%.3f' % Data.loc[Data[Data['index']=='CHN'].index,'CO2']))
+    n1 = float('%.3f' % Data[Data['index']=='CHN']['CO2'])
     # print(n1)
-    n2 = float(('%.3f' % Data.loc[Data[Data['index']=='CHN'].index,'GDP']))
+    n2 = float('%.3f' % Data[Data['index']=='CHN']['GDP'])
     # print(n2)
-    # china = [Data.loc['CHN','CO2'].round(3), Data.loc['CHN','GDP'].round(3)]
     china = [n1, n2]
     # plt.show()
     # print(type(fig))
@@ -81,3 +79,4 @@ def co2_gdp_plot():
 if __name__ == '__main__':
     fig, china = co2_gdp_plot()
     print(china)
+    plt.show()
