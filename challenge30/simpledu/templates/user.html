@@ -3,12 +3,12 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-	<h1>ID: {{user.id}}</h1>
-	<h1>Username: {{user.username}}</h1>
-	<h1>Published courses:</h1>
-		{% for n in user.courses %}
-		{{ n.name }}
-		</p>
-		{% endfor %}
+    <h1>ID: {{user.id}}</h1>
+    <h1>Username: {{user.username}}</h1>
+    <h1>Published courses:</h1>
+        {% for n in user.courses %}
+        {{ n.name }}
+        </p>
+        {% endfor %}
 {% endblock %}
 

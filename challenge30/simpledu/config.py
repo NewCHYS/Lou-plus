@@ -1,27 +1,27 @@
 class BaseConfig(object):
 
-	SECRET_KEY = '000000'
+    SECRET_KEY = '000000'
 
 
 class DevelopmentConfig(BaseConfig):
 
-	DEBUG = True
-	SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:67119299Mj!@localhost:3306/simpledu?charset=utf8'
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:67119299Mj!@localhost:3306/simpledu?charset=utf8'
 
 
 class ProductionConfig(BaseConfig):
 
-	pass
+    pass
 
 
 class TestingConfig(BaseConfig):
 
-	pass
+    pass
 
 
 configs = {
-	'development': DevelopmentConfig,
-	'production': ProductionConfig,
-	'testing': TestingConfig
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'testing': TestingConfig
 }
 
