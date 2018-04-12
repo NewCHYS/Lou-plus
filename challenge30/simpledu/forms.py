@@ -4,6 +4,7 @@ from wtforms.validators import Length, Email, EqualTo, Required
 from simpledu.models import db, User
 from wtforms import ValidationError
 import re
+from flask import flash
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[Required(), Length(3, 24)])
@@ -24,7 +25,7 @@ class RegisterForm(FlaskForm):
     def validate_username(self, field):
         n = re.search('[^A-Za-z0-9]', field.data)
         if n:
-            raise ValidationError('Username not correct, only use letter and number')
+            flash('Username not correct, only use letter and number')
         elif User.query.filter_by(username=field.data).first():
             raise ValidationError('Username exists')
 
