@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<ul class="nav nav-tabs list-title">
+    <li role="presentation" class="active"><a href="#">New Job</a></li>
+</ul>
+
+<div class="job-list">
+
+</div>
+<p class="list-more">
+    <a href="/job/" class="btn btn-success btn-lg list-more-btn">More</a>
+</p>
+
+
+<ul class="nav nav-tabs list-title">
+    <li role="presentation" class="active"><a href="#">New Company</a></li>
+</ul>
+
+<div class="company-list">
+
+</div>
+<p class="list-more">
+    <a href="/company/" class="btn btn-success btn-lg list-more-btn">More</a>
+</p>
+
+{% endblock %}

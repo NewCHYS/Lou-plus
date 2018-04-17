@@ -1,0 +1,16 @@
+#!/bin/bash
+
+sudo service mysql start
+sudo pip3 install flask flask-sqlalchemy mysqlclient flask-migrate flask-wtf flask-login
+
+export FLASK_APP=manage.py
+export FLASK_DEBUG=1
+
+rm -rf migrations
+
+flask db init
+flask db migrate -m 'init database'
+flask db upgrade
+
+python3 add_admin.py
+
