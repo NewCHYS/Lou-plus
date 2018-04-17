@@ -32,7 +32,7 @@ class User(Base, UserMixin):
     job = db.Column(db.String(64))
     publish_courses = db.relationship('Course')
 
-    def __reper__(self):
+    def __repr__(self):
         return '<User:{}>'.format(self.username)
 
     @property
@@ -68,7 +68,7 @@ class Course(Base):
     author = db.relationship('User', backref=db.backref('courses', lazy='dynamic'), uselist=False)
     chapters = db.relationship('Chapter')
 
-    def __reper__(self):
+    def __repr__(self):
         return '<Course:{}>'.format(self.name)
 
     @property
@@ -102,7 +102,7 @@ class Live(Base):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='CASCADE'))
     user = db.relationship('User', uselist=False)
 
-    def __reper__(self):
+    def __repr__(self):
         return '<Live:{}>'.format(self.name)
 
     @property
