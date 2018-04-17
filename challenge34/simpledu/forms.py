@@ -1,6 +1,4 @@
 import re
-import redis
-import json
 
 from flask import flash
 from flask_wtf import FlaskForm
@@ -10,7 +8,6 @@ from wtforms import TextAreaField, IntegerField
 from wtforms.validators import Length, Email, EqualTo, Required, URL, NumberRange
 
 from simpledu.models import db, User, Course, Live
-
 
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[Required(), Length(3, 24)])
@@ -133,14 +130,7 @@ class LiveForm(FlaskForm):
         db.session.commit()
         return live
 
-redis = redis.from_url('redis://127.0.0.1:6379')
 
-class SendmessageForm(FlaskForm):
+class MessageForm(FlaskForm):
     message = StringField('Message', validators=[Required()])
     submit = SubmitField('Submit')
-
-
-    def sendmessage(self):
-        text = self.message.data
-        message = {'username':'System: ', 'text':text}
-        redis.publish('chat', json.dumps(message))

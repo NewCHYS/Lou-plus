@@ -1,3 +1,5 @@
+import json
+
 from flask import flash
 from flask import redirect, url_for
 from flask import render_template, current_app, request
@@ -5,7 +7,8 @@ from flask import Blueprint
 
 from simpledu.decorators import admin_required
 from simpledu.models import db, User, Course, Live
-from simpledu.forms import UserForm, CourseForm, LiveForm, SendmessageForm
+from simpledu.forms import UserForm, CourseForm, LiveForm, MessageForm
+from .ws import redis
 
 
 admin = Blueprint('admin', __name__, url_prefix='/admin')
@@ -120,12 +123,12 @@ def create_live():
 
 @admin.route('/message', methods=['GET', 'POST'])
 @admin_required
-def message():
-    form = SendmessageForm()
+def send_message():
+    form = MessageForm()
     if form.validate_on_submit():
-        form.sendmessage()
+        message = {'username':'System', 'text':form.message.data}
+        redis.publish('chat', json.dumps(message))
         flash('System message send success', 'success')
-        return redirect(url_for('admin.message'))
+        return redirect(url_for('admin.index'))
     return render_template('admin/message.html', form=form)
-
 
