@@ -30,8 +30,8 @@ class User(Base, UserMixin):
 
     enabled = db.Column(db.Boolean, default=True)
 
-    company = db.relationship("Company", cascade="all,delete", backref="user")
-    jobseeker = db.relationship("Jobseeker", cascade="all,delete", backref="user")
+    company = db.relationship("Company", cascade="all,delete", back_populates="user", uselist=False)
+    jobseeker = db.relationship("Jobseeker", cascade="all,delete", back_populates="user", uselist=False)
 
     def __reper__(self):
         return "<User:{}>".format(self.usernmae)
@@ -75,7 +75,9 @@ class Company(Base):
     image_url = db.Column(db.String(256))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    job = db.relationship("Job", cascade="all,delete", backref="company")
+    user = db.relationship("User", back_populates="company")
+
+    job = db.relationship("Job", cascade="all,delete", back_populates="company")
 
     def __repr__(self):
         return "<Company:{}>".format(self.name)
@@ -100,8 +102,10 @@ class Jobseeker(Base):
     phone = db.Column(db.String(20))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    jobs = db.relationship(
-        "Job", secondary=resumes, backref=db.backref("jobseekers", lazy="dynamic")
+    user = db.relationship("User", back_populates="jobseeker")
+
+    job = db.relationship(
+        "Job", secondary=resumes, backref=db.backref("jobseeker", cascade='all,delete', lazy="dynamic")
     )
 
     def __repr__(self):
@@ -122,3 +126,9 @@ class Job(Base):
     description = db.Column(db.String(512))
     requirement = db.Column(db.String(512))
     company_id = db.Column(db.Integer, db.ForeignKey("company.id"))
+
+    company = db.relationship("Company", back_populates="job", uselist=False)
+
+#    jobseeker = db.relationship(
+#        "Jobseeker", secondary=resumes, backref=db.backref("job", cascade='all,delete', lazy="dynamic")
+#    )
