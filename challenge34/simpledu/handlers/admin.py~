@@ -118,7 +118,7 @@ def create_live():
         return redirect(url_for('admin.live'))
     return render_template('admin/create_live.html', form=form)
 
-@admin.route('/message')
+@admin.route('/message', methods=['GET', 'POST'])
 @admin_required
 def message():
     form = MessageForm()

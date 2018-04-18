@@ -45,7 +45,7 @@ if (flvjs.isSupported()){
     var flvPlayer = flvjs.createPlayer({
         type:'flv',
         isLive:true,
-        url:''
+        url:'https://cn-sdjn-cu-live-04.live-play.acgvideo.com/live-bvc/881955/live_10053034_7765480.flv?expires=1523816438&ssig=wMk3a3wDUiS7lrRqWrxC8g&oi=2071385518'
     });
     flvPlayer.attachMediaElement(videoElement);
     flvPlayer.load();

@@ -27,4 +27,5 @@ def systemmessage():
         message = {'username':'System', 'text':form.message.data}
         redis.publish('chat', json.dumps(message))
         flash('System message send success', 'success')
+        return redirect(url_for('admin.message'))
     return redirect(url_for('admin.message'))
