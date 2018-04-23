@@ -1,4 +1,5 @@
 from flask import abort
+from flask import current_app
 from flask_login import current_user
 from functools import wraps
 
@@ -9,8 +10,18 @@ def role_required(role):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwrargs):
-            if not current_user.is_authenticated or current_user.role < role:
-                abort(404)
+            if role==User.ROLE_ADMIN and current_app.config['ADMIN_REQUIRED']:
+                if not current_user.is_authenticated:
+                    return current_app.login_manager.unauthorized()
+                if current_user.role!=User.ROLE_ADMIN:
+                    abort(404)
+            elif role==User.ROLE_COMPANY and currnet_app.config['COMPANY_REQUIRED']:
+                if not current_user.is_authenticated:
+                    return current_app.login_manager.unauthorized()
+                if current_user.role!=User.ROLE_COMPANY:
+                    abort(404)
+            else:
+                return func(*args, **kwrargs)
             return func(*args, **kwrargs)
         return wrapper
     return decorator

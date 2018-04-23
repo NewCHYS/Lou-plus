@@ -22,7 +22,12 @@ def register_extensions(app):
     Migrate(app, db)
 
     login_manager = LoginManager()
+
     login_manager.init_app(app)
+
+    login_manager.login_message = 'Caution: You must login in!'
+    login_manager.login_message_category = 'info'
+
 
     @login_manager.user_loader
     def user_loader(id):

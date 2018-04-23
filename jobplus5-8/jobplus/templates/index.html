@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_pagination %}
 
 {% block title %}Home{% endblock %}
 
@@ -9,19 +10,58 @@
 </ul>
 
 <div class="job-list">
-
+    {% for job in pagination.items %}
+    <div class="col-sm-6 col-md-4">
+        <div class="job-box">
+            <div class="caption">
+                <a href="{{ job.url }}">
+                <b>{{ job.name }}</b><span class="timesince">&times;</span>
+                <p>{{ job.experience}}</p>
+                </a>
+            </div>
+            <hr>
+            <div class="media">
+                <div class="media-left">
+                    <a href="{{ job.company.url }}">
+                    <img class="media-object" src="{{job.company.image_url }}" width="40" height="40" alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="{{ job.company.url }}">
+                    <h4 class="media-heading">{{ job.company.name }}</h4>
+                    </a>
+                    <span class"company-meta">{{ job.company.location }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 <p class="list-more">
     <a href="/job/" class="btn btn-success btn-lg list-more-btn">More</a>
 </p>
 
 
-<ul class="nav nav-tabs list-title">
+<div class="nav nav-tabs list-title">
     <li role="presentation" class="active"><a href="#">New Company</a></li>
-</ul>
+</div>
 
 <div class="company-list">
-
+    {% for company in pagination2.items %}
+    <div class="col-sm-6 col-md-3 company-item">
+        <div class="thumbnail">
+            <a href="{{ company.url }}">
+                <img src="{{ company.image_url }}" width="100" height="100" alt="...">
+                <h3>{{ company.name }}</h3>
+                <p>{{ company.short_description }}</p>
+            </a>
+            <hr>
+            <a href="{{ url_for('company.jobs', company_id=company.id) }}">
+                <p>Online jobs: {{ company.jobs_count }}</p>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 <p class="list-more">
     <a href="/company/" class="btn btn-success btn-lg list-more-btn">More</a>

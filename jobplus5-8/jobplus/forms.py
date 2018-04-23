@@ -4,7 +4,7 @@ from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import ValidationError
 from wtforms import (
-    StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
+    StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, SelectField
 )
 from wtforms.validators import Length, Email, EqualTo, Required, URL, NumberRange
 
@@ -22,38 +22,27 @@ class RegisterForm(FlaskForm):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Email exists')
 
-    def create_company(self):
+    def create_user(self, role):
         print('start create')
         user = User()
         user.email = self.email.data
         user.password = self.password.data
-        user.role = 20
+        user.role = role
         db.session.add(user)
         db.session.commit()
+        user_add = User.query.filter_by(email=self.email.data).first()
+        if role == 20:
+            company = Company()
+            company.name = self.name.data
+            company.user_id = user_add.id
+            db.session.add(company)
+            db.session.commit()
+        elif role == 10:
+            jobseeker = Jobseeker()
+            jobseeker.name = self.name.data
+            jobseeker.user_id = user_add.id
+            db.session.add(jobseeker)
         print('create user ok')
-        user_add = User.query.filter_by(email=self.email.data).first()
-        company = Company()
-        company.name = self.name.data
-        company.user_id = user_add.id
-        db.session.add(company)
-        db.session.commit()
-        print('create company ok')
-        return user
-
-    def create_jobseeker(self):
-        user = User()
-        user.email = self.email.data
-        user.password = self.password.data
-        user.role = 10
-        db.session.add(user)
-        db.session.commit()
-        user_add = User.query.filter_by(email=self.email.data).first()
-        jobseeker = Jobseeker()
-        jobseeker.name = self.name.data
-        jobseeker.user_id = user_add.id
-        db.session.add(jobseeker)
-        db.session.commit()
-        return user
 
 
 class LoginForm(FlaskForm):
@@ -77,11 +66,11 @@ class UserForm(FlaskForm):
     name = StringField('Name', validators=[Required(), Length(3, 30)])
     email = StringField('Email', validators=[Required(), Email()])
     password = PasswordField('Password', validators=[Required(), Length(6, 24)])
-    role = StringField('Role', validators=[Required()])
-#    role = SelectField('Job', choices=[
-#        (10, 'Jobsekker'),
-#        (20, 'Company')
-#    ])
+#    role = StringField('Role', validators=[Required()])
+    role = SelectField('Job', coerce=int, choices=[
+        (10, 'Jobsekker'),
+        (20, 'Company')
+    ])
     submit = SubmitField('Submit')
 
     def validate_email(self, field):
@@ -93,7 +82,7 @@ class UserForm(FlaskForm):
         user = User()
         user.email = self.email.data
         user.password = self.password.data
-        user.role = int(self.role.data)
+        user.role = self.role.data
         db.session.add(user)
         db.session.commit()
         print('create user ok')
@@ -111,10 +100,8 @@ class UserForm(FlaskForm):
         db.session.commit()
         print('create ok')
 
-    def update_company(self, user):
-        user.email = self.email.data
-        user.password = self.password.data
-        user.role = int(self.role.data)
+    def update_user(self, user):
+        self.populate_obj(user)
         db.session.add(user)
         db.session.commit()
         print('update user ok')
@@ -130,26 +117,50 @@ class UserForm(FlaskForm):
         print('update ok')
 
 
-class JobseekerForm(FlaskForm):
+class CompanyForm(FlaskForm):
 
-    def create_jobseeker(self):
+    def update_company(self):
         pass
+
+
+class JobseekerForm(FlaskForm):
 
     def update_jobseeker(self):
         pass
 
 
 class JobForm(FlaskForm):
+    name = StringField('Name', validators=[Required(), Length(3, 30)])
+    company_id = SelectField('Job', coerce=int, choices=[])
+    submit = SubmitField('Submit')
+
+
+    def update_companylist(self):
+        companylist = []
+        c = Company.query.all()
+        for item in c:
+            companylist.append((item.id, item.name))
+        self.company_id.choices = companylist
 
     def create_job(self):
-        pass
+        job = Job()
+        job.name = self.name.data
+        job.company_id = self.company_id.data
+        db.session.add(job)
+        db.session.commit()
 
-    def edit_job(self):
-        pass
+    def update_job(self, job):
+        job.name = self.name.data
+        job.company_id = self.company_id.data
+        db.session.add(job)
+        db.session.commit()
 
 
 class ResumeForm(FlaskForm):
-    pass
 
+    def create_resume(self):
+        pass
 
+    def update_resume(self):
+        pass
 

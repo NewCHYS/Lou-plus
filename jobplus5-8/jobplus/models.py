@@ -63,6 +63,10 @@ class User(Base, UserMixin):
     def is_enabled(self):
         return self.enabled
 
+    @is_enabled.setter
+    def is_enabled(self, status):
+        self.enabled = status
+
 
 class Company(Base):
     __tablename__ = "company"
@@ -127,7 +131,17 @@ class Job(Base):
     requirement = db.Column(db.String(512))
     company_id = db.Column(db.Integer, db.ForeignKey("company.id"))
 
+    online = db.Column(db.Boolean, default=True)
+
     company = db.relationship("Company", back_populates="job", uselist=False)
+
+    @property
+    def is_online(self):
+        return self.online
+
+    @is_online.setter
+    def is_online(self, status):
+        self.online = status
 
 #    jobseeker = db.relationship(
 #        "Jobseeker", secondary=resumes, backref=db.backref("job", cascade='all,delete', lazy="dynamic")

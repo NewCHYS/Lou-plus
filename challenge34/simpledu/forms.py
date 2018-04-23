@@ -107,7 +107,7 @@ class UserForm(FlaskForm):
         db.session.commit()
         return user
 
-    def update_user(self):
+    def update_user(self, user):
         self.populate_obj(user)
         db.session.add(user)
         db.session.commit()

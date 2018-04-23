@@ -1,0 +1,38 @@
+{% extends "admin/index.html" %}
+{% from "macros.html" import render_form %}
+
+{% block admin %}
+<form method="POST" action="{{ url_for('admin.edit_user', user_id=user.id) }}">
+    {{ form.csrf_token }}
+
+    {% for field in form %}
+        {% if field.type == 'CSRFTokenField' %}
+        {{ '' }}
+
+        {% elif field.type == 'SubmitField' %}
+        {{ form.submit(class='btn btn=primary', type='submit') }}
+
+        {% elif field.type == 'BooleanField' %}
+        <div class='checkbox'>
+            <label>{{ field() }}{{ field.label.text }}</label>
+        </div>
+        {% elif field.label.text == 'Email' %}
+        <div class="form-group {% if field.errors %}has-error{% endif %}">
+            {{ field.label }}{{ field(class='form-control', disabled=True) }}
+                {% for error in field.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+        </div>
+        {% else %}
+        <div class="form-group {% if field.errors %}has-error{% endif %}">
+            {{ field.label }}{{ field(class='form-control') }}
+
+                {% for error in field.errors %}
+                <span class="help-block">{{ error }}</span>
+                {% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</form>
+{% endblock %}
+

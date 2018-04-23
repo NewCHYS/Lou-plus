@@ -12,23 +12,34 @@ Admin - user
             <th>ID</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Type</th>
+            <th>Status</th>
             <th>Operate</th>
         </tr>
         <tbody>
             {% for user in pagination.items %}
             <tr>
-                <td>{{ user.id}}</td>
+                <td>{{ user.id }}</td>
                 <td>{% if user.role==10 %}{{ user.jobseeker.name }}{% elif user.role==20 %}{{ user.company.name }}{% else %}Admin{% endif %}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.role }}</td>
+                <td>{% if user.role==10 %}Jobseeker{% elif user.role==20 %}Company{% else %}Admin{% endif %}</td>
+                <td>
+                    {% if user.is_enabled %}Enabled
+                        <a href="{{ url_for('admin.change_userstatus', user_id=user.id) }}" type="button" class="btn btn-default" title="Disabled">
+                            <span class="glyphicon" title="Disabled" aria-hidden="true">Disabled</span>
+                        </a>
+                    {% else %}Disabled
+                        <a href="{{ url_for('admin.change_userstatus', user_id=user.id) }}" type="button" class="btn btn-default" title="Enabled">
+                            <span class="glyphicon" title="Enabled" aria-hidden="true">Enabled</span>
+                        </a>
+                    {% endif %}
                 <td>
                     <div class="btn-group" role="group">
-                        <a href="#" type="button" class="btn btn-default" title="Edit">
-                            <span class="glyphicon glyphicon-pencil" title="Edit" aria-hidden="true"></span>
+                        <a href="{{ url_for('admin.edit_user', user_id=user.id) }}" type="button" class="btn btn-default" title="Edit">
+                            <span class="glyphicon" title="Edit" aria-hidden="true">Edit</span>
                         </a>
-                        <a href="#" type="button" class="btn btn-default" title="Delete">
-                            <span class="glyphicon glyphicon-trash" title="Delete" aria-hidden="true"></span>
+                        <a href="{{ url_for('admin.delete_user', user_id=user.id) }}" type="button" class="btn btn-default" title="Delete">
+                            <span class="glyphicon" title="Delete" aria-hidden="true">Delete</span>
                         </a>
                     </div>
                 </td>
@@ -38,11 +49,11 @@ Admin - user
     </thead>
 </table>
 
-{{ render_pagination(pagination, 'admin.user') }}
+{{ render_pagination(pagination, 'admin.userlist') }}
 {% endblock %}
 
 {% block operation %}
-<a href="#" type="button" class="btn btn-primary">
+<a href="{{ url_for('admin.create_user') }}" type="button" class="btn btn-primary">
     <span class="glyphicon glyphcion-plus" aria-hidden="true"></span>
     Creatr User
 </a>

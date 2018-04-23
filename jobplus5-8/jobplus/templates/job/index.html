@@ -1,10 +1,41 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_pagination %}
 
 {% block title %}
 Job
 {% endblock %}
 
 {% block body %}
-<h1>Job Page</h1>
+Job
+<div class="job-list">
+    {% for job in pagination.items %}
+    <div class="col-sm-6 col-md-4">
+        <div class="job-box">
+            <div class="caption">
+                <a href="{{ url_for('job.detail', job_id=job.id) }}">
+                <b>{{ job.name }}</b><span class="timesince">&times;</span>
+                <p>{{ job.experience }}</p>
+                </a>
+            </div>
+            <hr>
+            <div class="media">
+                <div class="media-left">
+                    <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+                    <img class="media-object" src="{{ job.company.image_url }}" width="40" height="40" alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="{{ job.company.url }}">
+                    <h4 class="media-heading">{{ job.company.name }}</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{{ render_pagination(pagination, 'job.index') }}
+
 {% endblock %}
 

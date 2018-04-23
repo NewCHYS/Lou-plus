@@ -1,0 +1,60 @@
+{% extends "admin/index.html" %}
+{% from "macros.html" import render_pagination %}
+
+{% block title %}
+Admin - job
+{% endblock %}
+
+{% block admin %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Operate</th>
+        </tr>
+        <tbody>
+            {% for job in pagination.items %}
+            <tr>
+                <td>{{ job.id }}</td>
+                <td>{{ job.name }}</td>
+                <td>{{ job.company.name }}</td>
+                <td>
+                    {% if job.is_online %}Online
+                        <a href="{{ url_for('admin.change_jobstatus', job_id=job.id) }}" type="button" class="btn btn-default" title="Offline">
+                            <span class="glyphicon" title="Offline" aria-hidden="true">Offline</span>
+                        </a>
+                    {% else %}Offline
+                        <a href="{{ url_for('admin.change_jobstatus', job_id=job.id) }}" type="button" class="btn btn-default" title="Online">
+                            <span class="glyphicon" title="Online" aria-hidden="true">Enabled</span>
+                        </a>
+                    {% endif %}
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('admin.edit_job', job_id=job.id) }}" type="button" class="btn btn-default" title="Edit">
+                            <span class="glyphicon" title="Edit" aria-hidden="true">Edit</span>
+                        </a>
+                        <a href="{{ url_for('admin.delete_job', job_id=job.id) }}" type="button" class="btn btn-default" title="Delete">
+                            <span class="glyphicon" title="Delete" aria-hidden="true">Delete</span>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{{ render_pagination(pagination, 'admin.joblist') }}
+{% endblock %}
+
+{% block operation %}
+<a href="{{ url_for('admin.create_job') }}" type="button" class="btn btn-primary">
+    <span class="glyphicon glyphcion-plus" aria-hidden="true"></span>
+    Creatr Job
+</a>
+{% endblock %}
+
+

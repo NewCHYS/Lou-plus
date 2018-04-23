@@ -1,10 +1,30 @@
 {% extends "base.html" %}
+{% from "macros.html" import render_pagination %}
 
 {% block title %}
 Company
 {% endblock %}
 
 {% block body %}
-<h1>Company Page</h1>
+Company
+<div class="company-list">
+    {% for company in pagination.items %}
+    <div class="col-sm-6 col-md-3 company-item">
+        <div class="thumbnail">
+            <a href="{{ company.url }}">
+                <img src="{{ company.image_url }}" width="100" height="100" alt="...">
+                <h3>{{ company.name }}</h3>
+            </a>
+        </div>
+        <hr>
+        <a href="{{ url_for('company.jobs', company_id=company.id) }}">
+            <p>jobs:{{ company.jobs_count }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{{ render_pagination(pagination, 'company.index') }}
+
 {% endblock %}
 
