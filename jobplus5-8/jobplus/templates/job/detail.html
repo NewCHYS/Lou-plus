@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Job detail
+{% endblock %}
+
+{% block bodyheader %}
+Job detail
+<div class="jumbotorn">
+    <div class="container">
+        <div class="col-md-8">
+            <h2>{{ job.name }}</h2>
+            <span class="timesince">&times;</span>
+            <p><span class="job-salary">{{ job.salary }}</span>&nbsp;{{ job.experience }}</p>
+        </div>
+        <div class="col-md-4">
+        {% if current_user.is_authenticated and current_user.is_jobseeker %}
+            <a href="{{ url_for('job.apply', job_id=job.id) }}" class="btn btn-success btn-lg dilivery-btn">Send resume</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block body %}
+<div class="col-md-8">
+    <div class="job-detail">
+        <h3>Label</h3><br>
+        <p></p>
+        <br>
+        <h3>Description</h3><br>
+        <p>{{ job.description }}</p>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="media">
+        <div class="media-left">
+            <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+                <img src="{{ job.company.image_url }}" class="media-object" width="96" height="96">
+            </a>
+        </div>
+        <div class="media-body">
+        </div>
+    </div>
+</div>
+    <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+        <h4>{{ job.company.name }}</h4>
+    </a>
+    <p>City: {{ job.company.location }}</p>
+{% endblock %}

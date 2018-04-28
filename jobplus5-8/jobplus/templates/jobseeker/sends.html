@@ -1,0 +1,42 @@
+{% extends "jobseeker/index.html" %}
+{% from "macros.html" import render_pagination %}
+
+{% block operation %}
+{% endblock %}
+
+{% block admin %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Job</th>
+            <th>Company</th>
+            <th>Status</th>
+            <th>Operate</th>
+        </tr>
+        <tbody>
+            {% for job in jobseeker.job %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('job.detail', job_id=job.id) }}">
+                    {{ job.name }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ url_for('company.detail', company_id=job.company.id) }}">
+                    {{ job.company.name }}
+                    </a>
+                </td>
+                <td>Sended</td>
+                <td>
+                    <a href="{{ url_for('jobseeker.cancel', job_id=job.id) }}" type="button" class="btn btn-default" title="Cancel">
+                        <span class="glyphicon" title="Cancel" aria-hidden="true">Cancel</span>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </thead>
+</table>
+
+{{ render_pagination(pagination, 'jobseeker.sends') }}
+{% endblock %}

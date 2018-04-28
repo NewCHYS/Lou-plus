@@ -9,12 +9,12 @@
     <li role="presentation" class="active"><a href="#">New Job</a></li>
 </ul>
 
-<div class="job-list">
+<div class="job-list container">
     {% for job in pagination.items %}
     <div class="col-sm-6 col-md-4">
         <div class="job-box">
             <div class="caption">
-                <a href="{{ job.url }}">
+                <a href="{{ url_for('job.detail', job_id=job.id) }}">
                 <b>{{ job.name }}</b><span class="timesince">&times;</span>
                 <p>{{ job.experience}}</p>
                 </a>
@@ -37,16 +37,18 @@
     </div>
     {% endfor %}
 </div>
-<p class="list-more">
-    <a href="/job/" class="btn btn-success btn-lg list-more-btn">More</a>
-</p>
 
-
-<div class="nav nav-tabs list-title">
-    <li role="presentation" class="active"><a href="#">New Company</a></li>
+<div class="container">
+    <p class="list-more">
+        <a href="/job/" class="btn btn-success btn-lg list-more-btn">More</a>
+    </p>
 </div>
 
-<div class="company-list">
+<ul class="nav nav-tabs list-title">
+    <li role="presentation" class="active"><a href="#">New Company</a></li>
+</ul>
+
+<div class="company-list container">
     {% for company in pagination2.items %}
     <div class="col-sm-6 col-md-3 company-item">
         <div class="thumbnail">
@@ -63,8 +65,11 @@
     </div>
     {% endfor %}
 </div>
+
+<div class="container">
 <p class="list-more">
     <a href="/company/" class="btn btn-success btn-lg list-more-btn">More</a>
 </p>
+</div>
 
 {% endblock %}

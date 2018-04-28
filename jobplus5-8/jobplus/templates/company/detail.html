@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+Company detail
+{% endblock %}
+
+{% block bodyhead %}
+<div class="jumbotron">
+    <div class=container">
+        <div class="col-md-3">
+            <div class="thumbnail">
+                <img src="{{ company.image_url }}">
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h2>{{ company.name }}</h2>
+            <p>{{ company.short_description }}</p>
+            <a href="{{ company.url }}">home page</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block body %}
+    {% block bodyl %}
+    <div class="col-md-8">
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="{{ url_for('company.detail', company_id=company.id) }}">Description</a></li>
+            <li role="presentation" class=""><a href="{{ url_for('company.jobs', company_id=company.id) }}">Jobs: ({{ company.jobnumber }})</a></li>
+        </ul>
+        <div class="company-detail">
+        {{ company.description }}
+        </div>
+    </div>
+    {% endblock %}
+    {% block bodyr %}
+    <div class="col-md-4">
+        <h4>Infomation</h4>
+        <p>City: {{ company.location }}</p>
+    </div>
+    {% endblock %}
+{% endblock %}

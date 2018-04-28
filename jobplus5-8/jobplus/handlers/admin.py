@@ -57,7 +57,7 @@ def edit_user(user_id):
         return redirect(url_for('admin.userlist'))
     return render_template('admin/edit_user.html', form=form, user=user)
 
-@admin.route("user/change_userstatus/<int:user_id>")
+@admin.route("/user/change_userstatus/<int:user_id>")
 @admin_required
 def change_userstatus(user_id):
     user = User.query.get_or_404(user_id)
@@ -66,7 +66,7 @@ def change_userstatus(user_id):
     db.session.commit()
     return redirect(url_for('admin.userlist'))
 
-@admin.route("user/delete/<int:user_id>")
+@admin.route("/user/delete/<int:user_id>")
 @admin_required
 def delete_user(user_id):
     user = User.query.get_or_404(user_id)
@@ -74,7 +74,7 @@ def delete_user(user_id):
     db.session.commit()
     return redirect(url_for('admin.userlist'))
 
-@admin.route("joblist")
+@admin.route("/joblist")
 @admin_required
 def joblist():
     page = request.args.get('page', default=1, type=int)
@@ -96,7 +96,7 @@ def create_job():
         return redirect(url_for('admin.joblist'))
     return render_template('admin/create_job.html', form=form)
 
-@admin.route("job/edit/<int:job_id>", methods=["GET", "POST"])
+@admin.route("/job/edit/<int:job_id>", methods=["GET", "POST"])
 @admin_required
 def edit_job(job_id):
     job = Job.query.get_or_404(job_id)
@@ -108,7 +108,7 @@ def edit_job(job_id):
         return redirect(url_for('admin.joblist'))
     return render_template('admin/edit_job.html', form=form, job=job)
 
-@admin.route("job/change_jobstatus/<int:job_id>")
+@admin.route("/job/change_jobstatus/<int:job_id>")
 @admin_required
 def change_jobstatus(job_id):
     job = Job.query.get_or_404(job_id)
@@ -117,7 +117,7 @@ def change_jobstatus(job_id):
     db.session.commit()
     return redirect(url_for('admin.joblist'))
 
-@admin.route("job/delete/<int:job_id>")
+@admin.route("/job/delete/<int:job_id>")
 @admin_required
 def delete_job(job_id):
     job = Job.query.get_or_404(job_id)

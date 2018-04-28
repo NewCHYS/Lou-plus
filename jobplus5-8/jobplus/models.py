@@ -90,6 +90,10 @@ class Company(Base):
     def url(self):
         return url_for("company.detail", company_id=self.id)
 
+    @property
+    def jobnumber(self):
+        return len(self.job)
+
 
 resumes = db.Table(
     "resumes",
@@ -104,12 +108,13 @@ class Jobseeker(Base):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128), nullable=False)
     phone = db.Column(db.String(20))
+    resume = db.Column(db.String(128))
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
     user = db.relationship("User", back_populates="jobseeker")
 
     job = db.relationship(
-        "Job", secondary=resumes, backref=db.backref("jobseeker", cascade='all,delete', lazy="dynamic")
+        "Job", secondary=resumes, backref=db.backref("jobseeker", lazy="dynamic"), lazy="dynamic"
     )
 
     def __repr__(self):

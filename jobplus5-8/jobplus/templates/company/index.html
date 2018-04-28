@@ -18,7 +18,7 @@ Company
         </div>
         <hr>
         <a href="{{ url_for('company.jobs', company_id=company.id) }}">
-            <p>jobs:{{ company.jobs_count }}</p>
+            <p>Jobs: {{ company.jobnumber }}</p>
         </a>
     </div>
     {% endfor %}

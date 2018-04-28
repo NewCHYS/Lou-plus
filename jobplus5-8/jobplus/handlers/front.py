@@ -14,7 +14,7 @@ front = Blueprint("front", __name__)
 def index():
     page = request.args.get('page', default=1, type=int)
 
-    pagination = Job.query.paginate(
+    pagination = Job.query.filter_by(online=True).paginate(
         page=page,
         per_page=current_app.config['INDEX_PER_PAGE'],
         error_out=False

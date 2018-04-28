@@ -13,12 +13,12 @@ def role_required(role):
             if role==User.ROLE_ADMIN and current_app.config['ADMIN_REQUIRED']:
                 if not current_user.is_authenticated:
                     return current_app.login_manager.unauthorized()
-                if current_user.role!=User.ROLE_ADMIN:
+                if not current_user.is_admin:
                     abort(404)
             elif role==User.ROLE_COMPANY and currnet_app.config['COMPANY_REQUIRED']:
                 if not current_user.is_authenticated:
                     return current_app.login_manager.unauthorized()
-                if current_user.role!=User.ROLE_COMPANY:
+                if not current_user.is_company:
                     abort(404)
             else:
                 return func(*args, **kwrargs)

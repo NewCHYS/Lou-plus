@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Company Index
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-3">
+    <h4>Manage</h4>
+    <div class="list-group">
+        <a href="{{ url_for('company.admin_index') }}" class="list-group-item">CompanyInfo</a>
+        <a href="{{ url_for('company.admin_jobs') }}" class="list-group-item">Job</a>
+        <a href="#" class="list-group-item">Resumes</a>
+    </div>
+
+    {% block operation %}
+        <a href="#" class="btn btn-success btn-lg dilivery-btn">Edit info</a>
+    {% endblock %}
+</div>
+<div class="col-md-9">
+    {% block admin %}
+        <h3>Company Info</h3>
+        <p>Name: {{ company.name }}</p>
+        <p>Email: {{ company.user.email }}</p>
+        <p>Short_description: {{ company.short_description }}</p>
+        <p>Description: {{ company.description }}</p>
+    {% endblock %}
+{% endblock %}

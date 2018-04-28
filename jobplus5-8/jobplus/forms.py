@@ -36,12 +36,12 @@ class RegisterForm(FlaskForm):
             company.name = self.name.data
             company.user_id = user_add.id
             db.session.add(company)
-            db.session.commit()
         elif role == 10:
             jobseeker = Jobseeker()
             jobseeker.name = self.name.data
             jobseeker.user_id = user_add.id
             db.session.add(jobseeker)
+        db.session.commit()
         print('create user ok')
 
 
@@ -118,15 +118,35 @@ class UserForm(FlaskForm):
 
 
 class CompanyForm(FlaskForm):
+    name = StringField('Name', validators=[Required(), Length(3,30)])
+    location = StringField('Location')
+    short_description = StringField('Short_description')
+    description = TextAreaField('Description')
+    image_url = StringField('Image')
 
-    def update_company(self):
-        pass
+    def update_company(self, company):
+        self.populate_obj(company)
+#        company.name = self.data.name
+#        company.location = self.location.data
+#        company.short_description = self.short_description.data
+#        company.description = self.description.data
+#        company.image_url = self.image_url.data
+        db.session.add(company)
+        db.session.commit()
 
 
 class JobseekerForm(FlaskForm):
+    name = StringField('Name', validators=[Required(), Length(2, 20)])
+    phone = StringField('Phone')
+    resume = StringField('Resume')
 
-    def update_jobseeker(self):
-        pass
+    def update_jobseeker(self, jobseeker):
+        self.populate_obj(jobseeker)
+#        jobseeker.name = self.name.data
+#        jobseeker.phone = self.phone.data
+#        jobseeker.resume = self.resume.data
+        db.session.add(jobseeker)
+        db.session.commit()
 
 
 class JobForm(FlaskForm):

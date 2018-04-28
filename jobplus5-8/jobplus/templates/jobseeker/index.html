@@ -1,10 +1,27 @@
 {% extends "base.html" %}
 
 {% block title %}
-User
+Jobseeker Index
 {% endblock %}
 
 {% block body %}
-<h1>User Page</h1>
+<div class="row">
+    <div class="col-md-3">
+    <h4>Manage</h4>
+    <div class="list-group">
+        <a href="{{ url_for('jobseeker.index') }}" class="list-group-item">JobseekerInfo</a>
+        <a href="{{ url_for('jobseeker.resume_sends') }}" class="list-group-item">ResumeSends</a>
+    </div>
+
+    {% block operation %}
+        <a href="#" class="btn btn-success btn-lg dilivery-btn">Edit Info</a>
+    {% endblock %}
+</div>
+<div class="col-md-9">
+    {% block admin %}
+        <h3>Name: {{ jobseeker.name }}</h3>
+        <p>Phone: {{jobseeker.phone }}</p>
+        <p>Resume: {{ jobseeker.resume }}</p>
+    {% endblock %}
 {% endblock %}
 

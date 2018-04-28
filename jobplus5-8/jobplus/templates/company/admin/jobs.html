@@ -1,17 +1,15 @@
-{% extends "admin/index.html" %}
+{% extends "company/admin/index.html" %}
 {% from "macros.html" import render_pagination %}
 
-{% block title %}
-Admin - job
+{% block operation %}
+    <a href="#" class="btn btn-success btn-lg dilivery-btn">Create Job</a>
 {% endblock %}
-
 {% block admin %}
 <table class="table">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Company</th>
             <th>Status</th>
             <th>Operate</th>
         </tr>
@@ -20,23 +18,22 @@ Admin - job
             <tr>
                 <td>{{ job.id }}</td>
                 <td>{{ job.name }}</td>
-                <td>{{ job.company.name }}</td>
                 <td>
                     {% if job.is_online %}Online
-                        <a href="{{ url_for('admin.change_jobstatus', job_id=job.id) }}" type="button" class="btn btn-default" title="Offline">
+                        <a href="{{ url_for('company.change_jobstatus', company_id=current_user.company.id, job_id=job.id) }}" type="button" class="btn btn-default" title="Offline">
                             <span class="glyphicon" title="Offline" aria-hidden="true">Offline</span>
                         </a>
                     {% else %}Offline
-                        <a href="{{ url_for('admin.change_jobstatus', job_id=job.id) }}" type="button" class="btn btn-default" title="Online">
+                        <a href="{{ url_for('company.change_jobstatus', company_id=current_user.company.id, job_id=job.id) }}" type="button" class="btn btn-default" title="Online">
                             <span class="glyphicon" title="Online" aria-hidden="true">Online</span>
                         </a>
                     {% endif %}
                 <td>
                     <div class="btn-group" role="group">
-                        <a href="{{ url_for('admin.edit_job', job_id=job.id) }}" type="button" class="btn btn-default" title="Edit">
+                        <a href="{{ url_for('company.edit_job', company_id=current_user.company.id, job_id=job.id) }}" type="button" class="btn btn-default" title="Edit">
                             <span class="glyphicon" title="Edit" aria-hidden="true">Edit</span>
                         </a>
-                        <a href="{{ url_for('admin.delete_job', job_id=job.id) }}" type="button" class="btn btn-default" title="Delete">
+                        <a href="{{ url_for('company.delete_job', company_id=current_user.company.id, job_id=job.id) }}" type="button" class="btn btn-default" title="Delete">
                             <span class="glyphicon" title="Delete" aria-hidden="true">Delete</span>
                         </a>
                     </div>
@@ -47,14 +44,6 @@ Admin - job
     </thead>
 </table>
 
-{{ render_pagination(pagination, 'admin.joblist') }}
+{{ render_pagination(pagination, 'company.admin_jobs') }}
+
 {% endblock %}
-
-{% block operation %}
-<a href="{{ url_for('admin.create_job') }}" type="button" class="btn btn-primary">
-    <span class="glyphicon glyphcion-plus" aria-hidden="true"></span>
-    Creatr Job
-</a>
-{% endblock %}
-
-

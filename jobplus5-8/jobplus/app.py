@@ -37,10 +37,11 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    from .handlers import front, job, company, user, admin
+    from .handlers import front, job, company, user, admin, jobseeker
 
     app.register_blueprint(front)
     app.register_blueprint(job)
     app.register_blueprint(company)
     app.register_blueprint(user)
     app.register_blueprint(admin)
+    app.register_blueprint(jobseeker)
